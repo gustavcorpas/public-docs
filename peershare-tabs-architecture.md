@@ -70,3 +70,32 @@ A QR code has three nescessary parameters, i.e. `type`, `version`, and `id`.
 - __ID__ is the unique identifyer for the QR code.
 
 Based on this the client app may perform zero or more lookups and decide what to do based on this.
+
+## Payments
+
+Users' can issue a payment request using MobilePay (or potentially other payment services in the future).
+All payment services should implement a shared interface.
+
+```js
+
+const mbp = new MobilePay();
+mbp.pay({...}).then(cb);
+
+```
+
+## Getting tab items
+
+It is possible to get a stream of tab items from the tab class:
+
+```js
+
+const tab = new Tab(node);
+const stream = tab.items().getReader();
+while (true) {
+    const {value, done} = await stream.read();
+    // value is TabItem
+}
+```
+
+The way this works is by getting tab items from the public distributed graph.
+Restaurant's (cloud functions) are in charge of putting this information on the graph. 
